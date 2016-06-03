@@ -28,12 +28,12 @@ public class PagingTitleCell: PagingCell {
     configureTitleLabel()
   }
   
-  private func configure() {
+  public func configure() {
     contentView.addSubview(titleLabel)
     contentView.constrainToEdges(titleLabel)
   }
   
-  private func configureTitleLabel() {
+  public func configureTitleLabel() {
     guard let viewModel = viewModel else { return }
     titleLabel.text = viewModel.title
     titleLabel.font = viewModel.font
