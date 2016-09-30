@@ -6,7 +6,7 @@ import Parchment
 // need to make sure it conforms to Equatable, 
 // since that is required by PagingViewController
 struct CalendarItem: PagingItem, Equatable {
-  let date: NSDate
+  let date: Date
 }
 
 func ==(lhs: CalendarItem, rhs: CalendarItem) -> Bool {
@@ -28,7 +28,7 @@ struct CalendarPagingTheme: PagingTheme {
 // of PagingCell
 struct CalendarPagingOptions: PagingOptions {
   let menuItemClass: PagingCell.Type = CalendarPagingCell.self
-  let menuItemSize: PagingMenuItemSize = .Fixed(width: 48, height: 58)
+  let menuItemSize: PagingMenuItemSize = .fixed(width: 48, height: 58)
   let theme: PagingTheme = CalendarPagingTheme()
 }
 
@@ -49,16 +49,16 @@ class ViewController: UIViewController {
     addChildViewController(pagingViewController)
     view.addSubview(pagingViewController.view)
     view.constrainToEdges(pagingViewController.view)
-    pagingViewController.didMoveToParentViewController(self)
+    pagingViewController.didMove(toParentViewController: self)
     
     // Set our custom data source
     pagingViewController.dataSource = self
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     // Set the current date as the selected paging item
-    pagingViewController.selectPagingItem(CalendarItem(date: NSDate()))
+    pagingViewController.selectPagingItem(CalendarItem(date: Date()))
   }
   
 }
@@ -73,19 +73,19 @@ class ViewController: UIViewController {
 
 extension ViewController: PagingViewControllerDataSource {
   
-  func pagingViewController<T>(pagingViewController: PagingViewController<T>, viewControllerForPagingItem pagingItem: T) -> UIViewController {
+  func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, viewControllerForPagingItem pagingItem: T) -> UIViewController {
     let calendarItem = pagingItem as! CalendarItem
     return CalendarViewController(date: calendarItem.date)
   }
   
-  func pagingViewController<T>(pagingViewController: PagingViewController<T>, pagingItemBeforePagingItem pagingItem: T) -> T? {
+  func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemBeforePagingItem pagingItem: T) -> T? {
     let calendarItem = pagingItem as! CalendarItem
-    return CalendarItem(date: calendarItem.date.dateByAddingTimeInterval(-86400)) as? T
+    return CalendarItem(date: calendarItem.date.addingTimeInterval(-86400)) as? T
   }
   
-  func pagingViewController<T>(pagingViewController: PagingViewController<T>, pagingItemAfterPagingItem pagingItem: T) -> T? {
+  func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemAfterPagingItem pagingItem: T) -> T? {
     let calendarItem = pagingItem as! CalendarItem
-    return CalendarItem(date: calendarItem.date.dateByAddingTimeInterval(86400)) as? T
+    return CalendarItem(date: calendarItem.date.addingTimeInterval(86400)) as? T
   }
   
 }

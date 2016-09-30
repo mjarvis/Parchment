@@ -1,48 +1,48 @@
 import UIKit
 
 public enum PagingMenuItemSize {
-  case Fixed(width: CGFloat, height: CGFloat)
-  case SizeToFit(minWidth: CGFloat, height: CGFloat)
+  case fixed(width: CGFloat, height: CGFloat)
+  case sizeToFit(minWidth: CGFloat, height: CGFloat)
 }
 
 public extension PagingMenuItemSize {
   
   var width: CGFloat {
     switch self {
-    case let .Fixed(width, _): return width
-    case let .SizeToFit(minWidth, _): return minWidth
+    case let .fixed(width, _): return width
+    case let .sizeToFit(minWidth, _): return minWidth
     }
   }
   
   var height: CGFloat {
     switch self {
-    case let .Fixed(_, height): return height
-    case let .SizeToFit(_, height): return height
+    case let .fixed(_, height): return height
+    case let .sizeToFit(_, height): return height
     }
   }
   
 }
 
 public enum PagingIndicatorOptions {
-  case Hidden
-  case Visible(
+  case hidden
+  case visible(
     height: CGFloat,
     zIndex: Int,
     insets: UIEdgeInsets)
 }
 
 public enum PagingBorderOptions {
-  case Hidden
-  case Visible(
+  case hidden
+  case visible(
     height: CGFloat,
     zIndex: Int,
     insets: UIEdgeInsets)
 }
 
 public enum PagingSelectedScrollPosition {
-  case Left
-  case Right
-  case PreferCentered
+  case left
+  case right
+  case preferCentered
 }
 
 public protocol PagingTheme {
@@ -70,12 +70,12 @@ extension PagingOptions {
   
   var scrollPosition: UICollectionViewScrollPosition {
     switch selectedScrollPosition {
-    case .Left:
-      return .Left
-    case .Right:
-      return .Right
-    case .PreferCentered:
-      return .CenteredHorizontally
+    case .left:
+      return .left
+    case .right:
+      return .right
+    case .preferCentered:
+      return .centeredHorizontally
     }
   }
   
@@ -88,11 +88,11 @@ extension PagingOptions {
 public extension PagingTheme {
   
   var font: UIFont {
-    return UIFont.systemFontOfSize(15, weight: UIFontWeightMedium)
+    return UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
   }
   
   var textColor: UIColor {
-    return UIColor.blackColor()
+    return UIColor.black
   }
   
   var selectedTextColor: UIColor {
@@ -100,11 +100,11 @@ public extension PagingTheme {
   }
   
   var backgroundColor: UIColor {
-    return UIColor.whiteColor()
+    return UIColor.white
   }
   
   var headerBackgroundColor: UIColor {
-    return UIColor.whiteColor()
+    return UIColor.white
   }
   
   var indicatorColor: UIColor {
@@ -120,11 +120,11 @@ public extension PagingTheme {
 public extension PagingOptions {
   
   var menuItemSize: PagingMenuItemSize {
-    return .SizeToFit(minWidth: 150, height: 40)
+    return .sizeToFit(minWidth: 150, height: 40)
   }
   
   var selectedScrollPosition: PagingSelectedScrollPosition {
-    return .PreferCentered
+    return .preferCentered
   }
   
   var theme: PagingTheme {
@@ -132,14 +132,14 @@ public extension PagingOptions {
   }
   
   var indicatorOptions: PagingIndicatorOptions {
-    return .Visible(
+    return .visible(
       height: 4,
       zIndex: Int.max,
       insets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
   }
   
   var borderOptions: PagingBorderOptions {
-    return .Visible(
+    return .visible(
       height: 1,
       zIndex: Int.max - 1,
       insets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
